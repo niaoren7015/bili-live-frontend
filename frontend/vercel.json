@@ -1,28 +1,37 @@
 {
   "version": 2,
   "builds": [
-    { "src": "/*", "use": "@vercel/static" }
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { 
+        "distDir": "build"  // Next.js/Vite等构建目录名
+      }
+    }
   ],
   "routes": [
+    // 第一步: 将接口请求代理到Render后端
     {
       "src": "/start",
       "dest": "https://bili-live-backend.onrender.com/start",
-      "methods": ["POST", "OPTIONS"]
+      "methods": ["POST"]  // 严格限制方法
     },
     {
-      "src": "/(.*)", 
+      "src": "/end",
+      "dest": "https://bili-live-backend.onrender.com/end",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/heartbeat",
+      "dest": "https://bili-live-backend.onrender.com/heartbeat",
+      "methods": ["POST"]
+    },
+    
+    // 第二步: SPA路由回退（必须放在所有路由之后）
+    {
+      "src": "/.*",
       "dest": "/index.html",
       "status": 200
-    }
-  ],
-  "headers": [
-    {
-      "source": "/start",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
-      ]
     }
   ]
 }
