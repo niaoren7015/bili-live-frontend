@@ -1,20 +1,28 @@
 {
   "version": 2,
+  "builds": [
+    { "src": "/*", "use": "@vercel/static" }
+  ],
   "routes": [
     {
-      "src": "/start",  
-      "dest": "https://bili-live-backend.onrender.com/start",  // 替换为您的Render后端地址
-      "methods": ["POST"],  // 只代理POST请求
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      }
+      "src": "/start",
+      "dest": "https://bili-live-backend.onrender.com/start",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/(.*)", 
+      "dest": "/index.html",
+      "status": 200
     }
   ],
-  "headers": {
-    "/*": {  // 通配符，适用于所有页面
-      "Access-Control-Allow-Origin": "*",
-      "Content-Security-Policy": "default-src 'self' unpkg.com; script-src 'unsafe-inline'"
+  "headers": [
+    {
+      "source": "/start",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
     }
-  }
+  ]
 }
