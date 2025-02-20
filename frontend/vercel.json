@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "vite.config.js",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "cleanUrls": true
+      }
+    }
+  ],
+  "routes": [
+    // 将API请求代理到Render后端
+    {
+      "src": "/api/start",
+      "dest": "https://bili-live-backend.onrender.com/start",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/api/end",
+      "dest": "https://bili-live-backend.onrender.com/end",
+      "methods": ["POST"]
+    },
+    // SPA回退必须放最后!
+    {
+      "src": "/.*",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ]
+}

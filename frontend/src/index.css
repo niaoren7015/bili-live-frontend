@@ -1,0 +1,22 @@
+:root {
+  font-family: system-ui, -apple-system;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button {
+  padding: 8px 16px;
+  background: #00aeec;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(110%);
+}
